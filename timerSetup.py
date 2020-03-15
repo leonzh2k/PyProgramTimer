@@ -5,10 +5,6 @@ number of runs. RUN ONLY ONCE. THIS MUST BE PLACED IN THE SAME FILE AS THE PROGR
 """
 
 with open('name.py', 'w') as file1:
-    #file1.write(importTime)
-    #file1.write(importDateTime)
-    #file1.write(timer)
-    #file1.write(
     file1.write(
 '''import time
 from datetime import datetime
