@@ -12,7 +12,7 @@ A simple script that when executed generates files to help you test and compare 
 
 ## Introduction
 ### Background and Purpose
-There was a period of time where I was really into solving <a href="https://projecteuler.net/" about="_blank">Project Euler </a>problems. Oftentimes, the programs I wrote to solve the problems would have really long runtimes, since unless there was some mathematical trick that could be used, an obscene amount of mathematical operations would be required to derive the answer. However, it is written on the website that with an efficient implementation, answers to problems can be derived in under *one minute*. Needless to say, my programs were not meeting that standard. Thus, I became curious about seeing the runtimes of my solutions and how they got better with successive iterations. And thus the idea for this script was born.
+There was a period of time where I was really into solving <a href="https://projecteuler.net/" target="_blank">Project Euler </a>problems. Oftentimes, the programs I wrote to solve the problems would have really long runtimes, since unless there was some mathematical trick that could be used, an obscene amount of mathematical operations would be required to derive the answer. However, it is written on the website that with an efficient implementation, answers to problems can be derived in under *one minute*. Needless to say, my programs were not meeting that standard. Thus, I became curious about seeing the runtimes of my solutions and how they got better with successive iterations. And thus the idea for this script was born.
 
 ## Technologies
 * Python 3.7.3
