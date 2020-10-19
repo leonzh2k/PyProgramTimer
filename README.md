@@ -12,9 +12,12 @@ This script was written in Python 3.7.3, but may work on older versions.
 
 1. Download `timerSetup.py`. 
 2. Create an empty directory that you wish to develop your program in. 
-3. Move `timerSetup.py` into the directory, and execute it ONLY ONCE. 
-4. You will see two new files, `numruns.txt` and `runtimes.txt`. `runtimes.txt` keeps track of runtimes, and `numruns.txt` is used to keep track of how many runs have been logged to `runtimes.txt`.
-4. Delete or move `timerSetup.py` out of the directory (you can do this anytime). 
+3. Move `timerSetup.py` into the directory, and execute it ONLY ONCE.
+4. You will see three new files:
+    *  `name.py` is the file where you will develop your program. You can rename this whatever you like.
+    *  `runtimes.txt` keeps track of runtimes. You probably shouldn't edit this.
+    *  `numruns.txt` is used to keep track of how many runs have been logged to `runtimes.txt`. You probably shouldn't edit this either.
+4. Delete or move `timerSetup.py` out of the directory (you can reuse it for other programs). If you don't do this, you may accidentally run it again and run the risk of overwriting important data; fortunately there is a safeguard against that. 
 
 
 ## Usage
