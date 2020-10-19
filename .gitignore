@@ -1,2 +1,4 @@
+#only timerSetup should be tracked and updated.
 name.py
+#any txt files should be ignored.
 *.txt
