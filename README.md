@@ -1,5 +1,5 @@
 # PyProgramTimer 
-A simple script that when executed generates files to help you test and compare runtimes of your Python programs.
+A tool that generates files to help you test and compare runtimes of your Python programs.
 
 ## Table of Contents
 * [Introduction](#introduction)
@@ -12,7 +12,7 @@ A simple script that when executed generates files to help you test and compare 
 
 ## Introduction
 ### Background and Purpose
-There was a period of time where I was really into solving <a href="https://projecteuler.net/" target="_blank">Project Euler </a>problems. Oftentimes, the programs I wrote to solve the problems would have really long runtimes, since unless there was some mathematical trick that could be used, an obscene amount of mathematical operations would be required to derive the answer. However, it is written on the website that with an efficient implementation, answers to problems can be derived in under *one minute*. Needless to say, my programs were not meeting that standard. Thus, I became curious about seeing the runtimes of my solutions and how they got better with successive iterations. And thus the idea for this script was born.
+There was a period of time where I was really into solving  <a href="https://projecteuler.net/" target="_blank">Project Euler </a>problems. Oftentimes, the programs I wrote to solve the problems would have really long runtimes, since unless there was some mathematical trick that could be used, an obscene amount of mathematical operations would be required to derive the answer. However, it is written on the website that with an efficient implementation, answers to problems can be derived in under *one minute*. Needless to say, my programs were not meeting that standard. Thus, I became curious about seeing the runtimes of my solutions and how they got better with successive iterations. And thus the idea for this script was born.
 
 ## Technologies
 * Python 3.7.3
@@ -30,6 +30,7 @@ This script was written in Python 3.7.3, but may work on older versions.
     *  `runtimes.txt` keeps track of runtimes. You probably shouldn't edit this.
     *  `numruns.txt` is used to keep track of how many runs have been logged to `runtimes.txt`. You probably shouldn't edit this either.
 4. Delete or move `timerSetup.py` out of the directory (you can reuse it for other programs). If you don't do this, you may accidentally run it again and run the risk of overwriting important data; fortunately there is a safeguard against that. 
+5. Develop your program.
 
 
 ## Usage
@@ -44,7 +45,7 @@ The general use cycle of this script would probably be something like this:
 ## Todo
 * Figure out how to format runtime to specify less decimal places
 * Create `compareRunTimes.py` that allows you to compare runtimes
-
+* Figure out how to create a separate version of a program each time you decide to log a run
 
 ## Status
 Ongoing?

@@ -12,7 +12,7 @@ def createRunTimes():
     
 def createNumRuns():
     with open('numruns.txt', 'w') as file3:
-        file3.write('0') #0 runs yet
+        file3.write('0') #0 runs at init
 
 def createNamePy():
     with open('name.py', 'w') as file1:
@@ -73,7 +73,7 @@ if decision == "y":
 )
 
 def main():
-    #os.path.isfile checks whether the name.py file already exists
+    #os.path.isfile checks whether the name.py file already exists in the current directory
     if os.path.isfile('name.py'):
         overwriteName = str(input("A file called 'name.py' already exists in this directory. Are you sure you want to overwrite it? (y/n): "))
         while (overwriteName != "y" and overwriteName != "n"):
