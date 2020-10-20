@@ -1,4 +1,5 @@
 import os.path
+import shutil
 
 """
 Script to automatically generate a .py file with all time testing material included
@@ -7,15 +8,18 @@ number of runs. RUN ONLY ONCE. THIS MUST BE PLACED IN THE SAME DIRECTORY AS THE 
 """
 
 def createRunTimes():
-    with open('runtimes.txt', 'w') as file2:
+    with open('./runtimes.txt', 'w') as file2:
         file2.write('')
     
 def createNumRuns():
-    with open('numruns.txt', 'w') as file3:
+    with open('./numruns.txt', 'w') as file3:
         file3.write('0') #0 runs at init
 
+def createVersions():
+    os.mkdir('./versions')
+
 def createNamePy():
-    with open('name.py', 'w') as file1:
+    with open('./name.py', 'w') as file1:
         """
         The indentation of the write string may look weird, 
         but it's intended. Don't change it unless you know 
@@ -74,7 +78,7 @@ if decision == "y":
 
 def main():
     #os.path.isfile checks whether the name.py file already exists in the current directory
-    if os.path.isfile('name.py'):
+    if os.path.isfile('./name.py'):
         overwriteName = str(input("A file called 'name.py' already exists in this directory. Are you sure you want to overwrite it? (y/n): "))
         while (overwriteName != "y" and overwriteName != "n"):
             overwriteName = str(input("A file called 'name.py' already exists in this directory. Are you sure you want to overwrite it? (y/n): "))
@@ -87,7 +91,7 @@ def main():
         createNamePy()
         print("Successfully created name.py.\n")
 
-    if os.path.isfile('runtimes.txt'):
+    if os.path.isfile('./runtimes.txt'):
         overwriteRunTimes = str(input("A file called 'runtimes.txt' already exists in this directory. Are you sure you want to overwrite it? (y/n): "))
         while (overwriteRunTimes != "y" and overwriteRunTimes != "n"):
             overwriteRunTimes = str(input("A file called 'runtimes' already exists in this directory. Are you sure you want to overwrite it? (y/n): "))
@@ -100,18 +104,55 @@ def main():
         createRunTimes()
         print("Successfully created runtimes.txt.\n")
 
-    if os.path.isfile('numruns.txt'):
+    if os.path.isfile('./numruns.txt'):
         overwriteNumRuns = str(input("A file called 'numruns.txt' already exists in this directory. Are you sure you want to overwrite it? (y/n): "))
         while (overwriteNumRuns != "y" and overwriteNumRuns != "n"):
             overwriteNumRuns = str(input("A file called 'numruns.txt' already exists in this directory. Are you sure you want to overwrite it? (y/n): "))
         if overwriteNumRuns == "y":
             createNumRuns()
-            print("numruns.txt successfully overwritten.")
+            print("numruns.txt successfully overwritten.\n")
         else:
             pass
     else:
         createNumRuns()
         print("Successfully created numruns.txt.")
+
+
+    if os.path.isdir('./versions'):
+        overwriteVersions = str(input("A folder called 'versions' already exists in this directory. Are you sure you want to overwrite it? (y/n): "))
+        while (overwriteVersions != "y" and overwriteVersions != "n"):
+            overwriteVersions = str(input("A folder called 'versions' already exists in this directory. Are you sure you want to overwrite it? (y/n): "))
+        if overwriteVersions == "y":
+            #can just remove versions if empty
+            if len(os.listdir('./versions') ) == 0:
+                os.rmdir('./versions')
+                createVersions()
+                print("'versions' successfully overwritten.")
+            #case is not empty, will need to prompt for final confirmation
+            else:    
+                reallyOverwriteVersions = str(input("'versions' is not an empty directory. Do you REALLY want to overwrite it? (y/n): "))
+                while (reallyOverwriteVersions != "y" and reallyOverwriteVersions != "n"):
+                    reallyOverwriteVersions = str(input("'versions' is not an empty directory. Do you REALLY want to overwrite it? (y/n): "))
+                if reallyOverwriteVersions == 'y':
+                    try:
+                        shutil.rmtree('./versions')
+                        createVersions()
+                        print("'versions' successfully overwritten.")
+                    except OSError as e:
+                        print("Error: %s : %s" % ('./versions', e.strerror))
+                else:
+                    pass
+        else:
+            pass
+    else:
+        createVersions()
+        print("Successfully created 'versions'.")
+
+
+
+
+
+
 
 if __name__ == "__main__":
     main()
