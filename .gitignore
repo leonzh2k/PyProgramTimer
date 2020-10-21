@@ -1,4 +1,5 @@
 #only timerSetup should be tracked and updated.
+new_name.py
 name.py
 #any txt files should be ignored.
 *.txt

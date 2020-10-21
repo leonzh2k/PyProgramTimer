@@ -27,9 +27,47 @@ def createNamePy():
         in name.py and you'll have to manually fix it.
         """
         file1.write(
-'''import time
+'''import os
+import shutil
+import time
 from datetime import datetime
 timer = time.time()
+"""
+create a "pending run" version of this program. This is created 
+before everything else because the user may modify the file during 
+the program is running, and if they decide to log the run, the 
+version that will be copied will be the one that they modified 
+during the run, not the version that was actually used to run.
+"""
+program_name = os.path.basename(__file__) #https://stackoverflow.com/questions/4152963/get-name-of-current-script-in-python
+split_program_name = program_name.split('.')
+pending_program_name = split_program_name[0] + "_" + "pending" + "_" + "run" + ".py"
+shutil.copyfile(program_name, "./versions/" + pending_program_name)
+#check if program's name changed. If so, update all file names in versions to reflect the change
+#more specifically, checks the first file in versions and compares its name to tested program
+#first_name_in_versions = os.scandir("./versions")
+#split_first_name_in_versions = first_name_in_versions.split("_")
+try:
+    for file in os.scandir("./versions"):
+        dir_entry = str(file)
+        #print(dir_entry)
+        #first, split the dir_entry to get the full file name
+        full_file_name = (dir_entry.split("'"))[1] #nam3e_run7.py
+        #print(full_file_name)
+        #then, split the full file name to get the name after the underscore
+        name_after_underscore = (full_file_name.split("_"))[1]
+        #print(name_after_underscore)
+        name_before_underscore = (full_file_name.split("_"))[0]
+        #print(name_before_underscore)
+
+        
+        # file_name = (((dir_entry.split("'"))[1]).split("_"))[0]
+        if name_before_underscore != split_program_name[0]:
+            os.rename("./versions/" + full_file_name, "./versions/" + split_program_name[0] + "_" + name_after_underscore)
+except:
+    print("Uh oh, an error occured while checking file names. Please check that the files in your versions folder are in correct naming format (name_run#.py)")
+    os.remove("./versions/" + pending_program_name)
+    exit()
 #######################################
 
 #WRITE YOUR PROGRAM HERE
@@ -54,6 +92,7 @@ decision = str(input("Would you like to write this time to the list of runtimes?
 while (decision != "y" and decision != "n"):
     decision = str(input("Would you like to write this time to the list of runtimes? (y/n): "))
 if decision == "y":
+    #increment runs in numruns by 1
     with open("numruns.txt", "r+") as numruns:
         for line in numruns:
             num_runs = int(line[0])
@@ -62,7 +101,7 @@ if decision == "y":
             numruns.seek(0)
             numruns.truncate(0)
             numruns.write(str(num_runs))
-            
+    #log new run to runtimes        
     with open("runtimes.txt", "a") as runtimes:
         runtimes.write(current_date)
         runtimes.write("------------------------------\\n")
@@ -73,6 +112,19 @@ if decision == "y":
         runtimes.write(time_hrs)
         runtimes.write("\\n")
         runtimes.write("==============================\\n\\n")
+
+    #add current version of tested program to versions folder
+    program_name = os.path.basename(__file__) #https://stackoverflow.com/questions/4152963/get-name-of-current-script-in-python
+    split_program_name = program_name.split('.')
+    program_version = "run" + str(num_runs)
+    #final_name is in format name_run#.py
+    final_program_name = split_program_name[0] + "_" + program_version + '.py'
+
+    #rename pending_name file to final_program_name in versions
+    os.rename("./versions/" + pending_program_name, "./versions/" + final_program_name)
+
+else:
+    os.remove("./versions/" + pending_program_name)
 '''
 )
 
