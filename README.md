@@ -45,11 +45,11 @@ The general use cycle of this script would probably be something like this:
 ## Todo
 * Figure out how to format runtime to specify less decimal places
 * Create `compareRunTimes.py` that allows you to compare runtimes
-* Figure out how to create a separate version of a program each time you decide to log a run
+* 
 
 ## Status
 Ongoing?
 
 ## Bugs
-* naming a file with an underscore will mess up the renaming algorithm due to split("_") assuming no underscores in file name
+
 

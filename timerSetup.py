@@ -8,15 +8,20 @@ number of runs. RUN ONLY ONCE. THIS MUST BE PLACED IN THE SAME DIRECTORY AS THE 
 """
 
 def createRunTimes():
-    with open('./runtimes.txt', 'w') as file2:
+    with open('./data/runtimes.txt', 'w') as file2:
         file2.write('')
+    print("runtimes.txt in folder 'data' successfully created.")
     
 def createNumRuns():
-    with open('./numruns.txt', 'w') as file3:
+    with open('./data/numruns.txt', 'w') as file3:
         file3.write('0') #0 runs at init
+    print("numruns.txt in folder 'data' successfully created.")
 
 def createVersions():
     os.mkdir('./versions')
+
+def createData():
+    os.mkdir("./data")
 
 def createNamePy():
     with open('./name.py', 'w') as file1:
@@ -41,32 +46,42 @@ during the run, not the version that was actually used to run.
 """
 program_name = os.path.basename(__file__) #https://stackoverflow.com/questions/4152963/get-name-of-current-script-in-python
 split_program_name = program_name.split('.')
-pending_program_name = split_program_name[0] + "_" + "pending" + "_" + "run" + ".py"
+pending_program_name = split_program_name[0] + "_" + "pending" + "_" + "run" + ".txt"
 shutil.copyfile(program_name, "./versions/" + pending_program_name)
 #check if program's name changed. If so, update all file names in versions to reflect the change
 #more specifically, checks the first file in versions and compares its name to tested program
 #first_name_in_versions = os.scandir("./versions")
 #split_first_name_in_versions = first_name_in_versions.split("_")
 try:
-    #DO NOT SPLIT BY _. USERS COULD HAVE A PROGRAM NAME WITH _ IN IT AND WILL MESS UP STUFF
     for file in os.scandir("./versions"):
         dir_entry = str(file)
-        #print(dir_entry)
+        #pending file is .txt initially, and we don't want to change the name of this file
+        #or, will ignore all .txt files
+        if ".txt" in dir_entry:
+            continue
         #first, split the dir_entry to get the full file name
         full_file_name = (dir_entry.split("'"))[1] #nam3e_run7.py
-        #print(full_file_name)
-        #then, split the full file name to get the name after the underscore
-        name_after_underscore = (full_file_name.split("_"))[1]
-        #print(name_after_underscore)
-        name_before_underscore = (full_file_name.split("_"))[0]
-        #print(name_before_underscore)
-
-        
-        # file_name = (((dir_entry.split("'"))[1]).split("_"))[0]
-        if name_before_underscore != split_program_name[0]:
-            os.rename("./versions/" + full_file_name, "./versions/" + split_program_name[0] + "_" + name_after_underscore)
+        print(full_file_name)
+        #then, split name into array of individual chars, 
+        #iterate backwards through the name to find first _ 
+        #and replace it with something that can never be 
+        # found in a file name, like /
+        full_file_name = list(full_file_name)
+        iter = -1
+        while (full_file_name[iter] != "_"):
+            iter -= 1
+        full_file_name[iter] = '/'
+        full_file_name = ("").join(full_file_name)
+        full_file_name = full_file_name.split("/")
+        print(full_file_name)
+        #then, split the full file name to get the name after the "/"
+        name_after_last_underscore = (full_file_name)[1]
+        name_before_last_underscore = (full_file_name)[0]
+        if name_before_last_underscore != split_program_name[0]:
+            os.rename("./versions/" + name_before_last_underscore + "_" + name_after_last_underscore, "./versions/" + split_program_name[0] + "_" + name_after_last_underscore)
 except:
-    print("Uh oh, an error occured while checking file names. Please check that the files in your versions folder are in correct naming format (name_run#.py)")
+    #print(err)
+    print("Uh oh, an error occured while checking file names. Please check that the files in your 'versions' folder are in correct naming format (name_run#.py)")
     os.remove("./versions/" + pending_program_name)
     exit()
 #######################################
@@ -130,6 +145,45 @@ else:
 )
 
 def main():
+    #create folder 'data'
+    if os.path.isdir('./data'):
+        overwriteData = str(input("A folder called 'data' already exists in this directory. Are you sure you want to overwrite it? (y/n): "))
+        while (overwriteData != "y" and overwriteData != "n"):
+            overwriteData = str(input("A folder called 'data' already exists in this directory. Are you sure you want to overwrite it? (y/n): "))
+        if overwriteData == "y":
+            #can just remove data if empty
+            if len(os.listdir('./data') ) == 0:
+                os.rmdir('./data')
+                createData()
+                print("folder 'data' successfully overwritten.")
+                createNumRuns()
+                createRunTimes()
+                print("\n")
+            #case is not empty, will need to prompt for final confirmation
+            else:    
+                reallyOverwriteData = str(input("'data' is not an empty directory. Do you REALLY want to overwrite it? (y/n): "))
+                while (reallyOverwriteData != "y" and reallyOverwriteData != "n"):
+                    reallyOverwriteData = str(input("'data' is not an empty directory. Do you REALLY want to overwrite it? (y/n): "))
+                if reallyOverwriteData == 'y':
+                    try:
+                        shutil.rmtree('./data')
+                        createData()
+                        print("folder 'data' successfully overwritten.")
+                        createNumRuns()
+                        createRunTimes()
+                        print("")
+                    except OSError as e:
+                        print("Error: %s : %s" % ('./data', e.strerror))
+                else:
+                    pass
+        else:
+            pass
+    else:
+        createData()
+        print("Successfully created folder 'data'.")
+        createNumRuns()
+        createRunTimes()
+        print("\n")
     #os.path.isfile checks whether the name.py file already exists in the current directory
     if os.path.isfile('./name.py'):
         overwriteName = str(input("A file called 'name.py' already exists in this directory. Are you sure you want to overwrite it? (y/n): "))
@@ -144,31 +198,31 @@ def main():
         createNamePy()
         print("Successfully created name.py.\n")
 
-    if os.path.isfile('./runtimes.txt'):
-        overwriteRunTimes = str(input("A file called 'runtimes.txt' already exists in this directory. Are you sure you want to overwrite it? (y/n): "))
-        while (overwriteRunTimes != "y" and overwriteRunTimes != "n"):
-            overwriteRunTimes = str(input("A file called 'runtimes' already exists in this directory. Are you sure you want to overwrite it? (y/n): "))
-        if overwriteRunTimes == "y":
-            createRunTimes()
-            print("runtimes.txt successfully overwritten.\n")
-        else:
-            pass
-    else:
-        createRunTimes()
-        print("Successfully created runtimes.txt.\n")
+    #if os.path.isfile('./runtimes.txt'):
+    #    overwriteRunTimes = str(input("A file called 'runtimes.txt' already exists in this directory. Are you sure you want to overwrite it? (y/n): "))
+    #    while (overwriteRunTimes != "y" and overwriteRunTimes != "n"):
+    #        overwriteRunTimes = str(input("A file called 'runtimes' already exists in this directory. Are you sure you want to overwrite it? (y/n): "))
+    #    if overwriteRunTimes == "y":
+    #        createRunTimes()
+    #        print("runtimes.txt successfully overwritten.\n")
+    #    else:
+    #        pass
+    #else:
+    #    createRunTimes()
+    #    print("Successfully created runtimes.txt.\n")
 
-    if os.path.isfile('./numruns.txt'):
-        overwriteNumRuns = str(input("A file called 'numruns.txt' already exists in this directory. Are you sure you want to overwrite it? (y/n): "))
-        while (overwriteNumRuns != "y" and overwriteNumRuns != "n"):
-            overwriteNumRuns = str(input("A file called 'numruns.txt' already exists in this directory. Are you sure you want to overwrite it? (y/n): "))
-        if overwriteNumRuns == "y":
-            createNumRuns()
-            print("numruns.txt successfully overwritten.\n")
-        else:
-            pass
-    else:
-        createNumRuns()
-        print("Successfully created numruns.txt.")
+    #if os.path.isfile('./numruns.txt'):
+    #    overwriteNumRuns = str(input("A file called 'numruns.txt' already exists in this directory. Are you sure you want to overwrite it? (y/n): "))
+    #    while (overwriteNumRuns != "y" and overwriteNumRuns != "n"):
+    #        overwriteNumRuns = str(input("A file called 'numruns.txt' already exists in this directory. Are you sure you want to overwrite it? (y/n): "))
+    #    if overwriteNumRuns == "y":
+    #        createNumRuns()
+    #        print("numruns.txt successfully overwritten.\n")
+    #    else:
+    #        pass
+    #else:
+    #   createNumRuns()
+    #    print("Successfully created numruns.txt.")
 
 
     if os.path.isdir('./versions'):
