@@ -50,3 +50,6 @@ The general use cycle of this script would probably be something like this:
 ## Status
 Ongoing?
 
+## Bugs
+* naming a file with an underscore will mess up the renaming algorithm due to split("_") assuming no underscores in file name
+

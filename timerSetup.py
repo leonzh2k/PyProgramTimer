@@ -48,6 +48,7 @@ shutil.copyfile(program_name, "./versions/" + pending_program_name)
 #first_name_in_versions = os.scandir("./versions")
 #split_first_name_in_versions = first_name_in_versions.split("_")
 try:
+    #DO NOT SPLIT BY _. USERS COULD HAVE A PROGRAM NAME WITH _ IN IT AND WILL MESS UP STUFF
     for file in os.scandir("./versions"):
         dir_entry = str(file)
         #print(dir_entry)
