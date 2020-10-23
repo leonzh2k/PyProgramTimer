@@ -36,7 +36,6 @@ def createNamePy():
 import shutil
 import time
 from datetime import datetime
-timer = time.time()
 """
 create a "pending run" version of this program. This is created 
 before everything else because the user may modify the file during 
@@ -84,14 +83,15 @@ except:
     print("Uh oh, an error occured while checking file names. Please check that the files in your 'versions' folder are in correct naming format (name_run#.py)")
     os.remove("./versions/" + pending_program_name)
     exit()
+timer = time.time() # start timer here so it starts just before the program starts
 #######################################
 
 #WRITE YOUR PROGRAM HERE
 
 #######################################
+runtime = time.time() - timer
 now = datetime.now()
 current_date = now.strftime("(%m/%d/%Y %I:%M:%S %p)\\n")
-runtime = time.time() - timer
 time_secs = str(runtime) + " " + "seconds" + "\\n"
 time_mins = str(runtime / 60) + " " + "minutes" + "\\n"
 time_hrs =  str(runtime / 3600) + " " + "hours" + "\\n"
