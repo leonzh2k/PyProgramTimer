@@ -109,7 +109,7 @@ while (decision != "y" and decision != "n"):
     decision = str(input("Would you like to write this time to the list of runtimes? (y/n): "))
 if decision == "y":
     #increment runs in numruns by 1
-    with open("numruns.txt", "r+") as numruns:
+    with open("./data/numruns.txt", "r+") as numruns:
         for line in numruns:
             num_runs = int(line[0])
             num_runs += 1
@@ -118,7 +118,7 @@ if decision == "y":
             numruns.truncate(0)
             numruns.write(str(num_runs))
     #log new run to runtimes        
-    with open("runtimes.txt", "a") as runtimes:
+    with open("./data/runtimes.txt", "a") as runtimes:
         runtimes.write(current_date)
         runtimes.write("------------------------------\\n")
         runtimes.write(time_secs)
