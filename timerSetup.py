@@ -20,6 +20,48 @@ def createNumRuns():
 def createVersions():
     os.mkdir('./versions')
 
+def createDependencies():
+    os.mkdir('./dependencies')
+
+def createProgTimer():
+    #os.mkdir('./dependencies')
+    with open('./dependencies/progtimer.py', 'w') as progtimer:
+        progtimer.write(
+'''import time
+from datetime import datetime
+
+def startProgramTimer():
+    timer = time.time()
+    return timer
+
+
+def stopProgramTimer(timer):
+    runtime = time.time() - timer
+    return runtime
+
+def getCurrentDate():
+    now = datetime.now()
+    current_date = now.strftime("(%m/%d/%Y %I:%M:%S %p)\\n")
+    return current_date
+
+def formatRunTime(runtime):
+    time_secs = str(round(runtime, 3)) + " " + "seconds" + "\\n"
+    time_mins = str(round((runtime / 60), 3)) + " " + "minutes" + "\\n"
+    time_hrs =  str(round((runtime / 3600), 3)) + " " + "hours" + "\\n"
+    return (time_secs, time_mins, time_hrs)
+
+def printFormattedRunTime(time_secs, time_mins, time_hrs):
+    print("Finished in:")
+    print("====================")
+    print(time_secs, end='')
+    print("or")
+    print(time_mins, end='')
+    print("or")
+    print(time_hrs, end='')        
+'''
+)
+    print("module 'progtimer' in folder 'dependencies' successfully created.")
+
 def createData():
     os.mkdir("./data")
 
@@ -34,8 +76,7 @@ def createNamePy():
         file1.write(
 '''import os
 import shutil
-import time
-from datetime import datetime
+from dependencies import progtimer
 """
 create a "pending run" version of this program. This is created 
 before everything else because the user may modify the file during 
@@ -83,25 +124,16 @@ except:
     print("Uh oh, an error occured while checking file names. Please check that the files in your 'versions' folder are in correct naming format (name_run#.py)")
     os.remove("./versions/" + pending_program_name)
     exit()
-timer = time.time() # start timer here so it starts just before the program starts
+startTime = progtimer.startProgramTimer() # start timer here so it starts just before the program starts
 #######################################
 
 #WRITE YOUR PROGRAM HERE
 
 #######################################
-runtime = time.time() - timer
-now = datetime.now()
-current_date = now.strftime("(%m/%d/%Y %I:%M:%S %p)\\n")
-time_secs = str(runtime) + " " + "seconds" + "\\n"
-time_mins = str(runtime / 60) + " " + "minutes" + "\\n"
-time_hrs =  str(runtime / 3600) + " " + "hours" + "\\n"
-print("Finished in:")
-print("====================")
-print(time_secs, end='')
-print("or")
-print(time_mins, end='')
-print("or")
-print(time_hrs, end='')
+endTime = progtimer.stopProgramTimer(startTime)
+current_date = progtimer.getCurrentDate()
+(time_secs, time_mins, time_hrs) = progtimer.formatRunTime(endTime)
+progtimer.printFormattedRunTime(time_secs, time_mins, time_hrs)
 
         
 decision = str(input("Would you like to write this time to the list of runtimes? (y/n): "))
@@ -234,7 +266,7 @@ def main():
             if len(os.listdir('./versions') ) == 0:
                 os.rmdir('./versions')
                 createVersions()
-                print("'versions' successfully overwritten.")
+                print("'versions' successfully overwritten.\n")
             #case is not empty, will need to prompt for final confirmation
             else:    
                 reallyOverwriteVersions = str(input("'versions' is not an empty directory. Do you REALLY want to overwrite it? (y/n): "))
@@ -244,7 +276,7 @@ def main():
                     try:
                         shutil.rmtree('./versions')
                         createVersions()
-                        print("'versions' successfully overwritten.")
+                        print("'versions' successfully overwritten.\n")
                     except OSError as e:
                         print("Error: %s : %s" % ('./versions', e.strerror))
                 else:
@@ -255,6 +287,39 @@ def main():
         createVersions()
         print("Successfully created 'versions'.")
 
+
+    if os.path.isdir('./dependencies'):
+        overwriteDependencies = str(input("A folder called 'dependencies' already exists in this directory. Are you sure you want to overwrite it? (y/n): "))
+        while (overwriteDependencies != "y" and overwriteDependencies != "n"):
+            overwriteDependencies = str(input("A folder called 'dependencies' already exists in this directory. Are you sure you want to overwrite it? (y/n): "))
+        if overwriteDependencies == "y":
+            #can just remove Dependencies if empty
+            if len(os.listdir('./dependencies') ) == 0:
+                os.rmdir('./dependencies')
+                createDependencies()
+                print("'dependencies' successfully overwritten.")
+                createProgTimer()
+            #case is not empty, will need to prompt for final confirmation
+            else:    
+                reallyOverwriteDependencies = str(input("'dependencies' is not an empty directory. Do you REALLY want to overwrite it? (y/n): "))
+                while (reallyOverwriteDependencies != "y" and reallyOverwriteDependencies != "n"):
+                    reallyOverwriteDependencies = str(input("'Dependencies' is not an empty directory. Do you REALLY want to overwrite it? (y/n): "))
+                if reallyOverwriteDependencies == 'y':
+                    try:
+                        shutil.rmtree('./dependencies')
+                        createDependencies()
+                        print("'dependencies' successfully overwritten.")
+                        createProgTimer()
+                    except OSError as e:
+                        print("Error: %s : %s" % ('./dependencies', e.strerror))
+                else:
+                    pass
+        else:
+            pass
+    else:
+        createDependencies()
+        print("Successfully created 'dependencies'.")
+        createProgTimer()
 
 
 

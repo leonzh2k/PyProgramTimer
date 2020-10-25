@@ -45,7 +45,7 @@ The general use cycle of this script would probably be something like this:
 ## Todo
 * Figure out how to format runtime to specify less decimal places
 * Create `compareRunTimes.py` that allows you to compare runtimes
-* 
+* Package timer and run-logging code into modules to reduce clutter in main program
 
 ## Status
 Ongoing?
