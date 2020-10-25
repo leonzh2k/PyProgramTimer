@@ -48,7 +48,7 @@ The general use cycle of this script would probably be something like this:
 * Package timer and run-logging code into modules to reduce clutter in main program
 
 ## Status
-Ongoing?
+Ongoing
 
 ## Bugs
 

@@ -174,7 +174,6 @@ def createNamePy():
         in name.py and you'll have to manually fix it.
         """
         file1.write('''import os
-import shutil
 from dependencies import progtimer
 from dependencies import proglogger
 program_name = os.path.basename(__file__)
