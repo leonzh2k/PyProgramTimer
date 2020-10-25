@@ -43,9 +43,10 @@ The general use cycle of this script would probably be something like this:
 6. See how much faster your program has gotten and how far you've come.....
 
 ## Todo
-* Figure out how to format runtime to specify less decimal places
 * Create `compareRunTimes.py` that allows you to compare runtimes
-* Package timer and run-logging code into modules to reduce clutter in main program
+* Update README to reflect changes in code
+* <del>Figure out how to format runtime to specify less decimal places</del>
+* <del>Package timer and run-logging code into modules to reduce clutter in main program<del>
 
 ## Status
 Ongoing
