@@ -62,6 +62,106 @@ def printFormattedRunTime(time_secs, time_mins, time_hrs):
 )
     print("module 'progtimer' in folder 'dependencies' successfully created.")
 
+def createProgLogger():
+    with open('./dependencies/proglogger.py', 'w') as proglogger:
+        proglogger.write(
+'''import os
+import shutil
+
+"""
+create a "pending run" version of this program. This is created 
+before everything else because the user may modify the file during 
+the program is running, and if they decide to log the run, the 
+version that will be copied will be the one that they modified 
+during the run, not the version that was actually used to run.
+"""
+
+def createPendingProgram(filename):
+    program_name = filename #https://stackoverflow.com/questions/4152963/get-name-of-current-script-in-python
+    split_program_name = program_name.split('.')
+    pending_program_name = split_program_name[0] + "_" + "pending" + "_" + "run" + ".txt"
+    shutil.copyfile(program_name, "./versions/" + pending_program_name)
+    return pending_program_name
+
+def checkProgramName(program_name, pending_program_name):
+    #check if program's name changed. If so, update all file names in versions to reflect the change
+    #more specifically, checks the first file in versions and compares its name to tested program
+    split_program_name = program_name.split('.')
+    try:
+        for file in os.scandir("./versions"):
+            dir_entry = str(file)
+            #pending file is .txt initially, and we don't want to change the name of this file
+            #or, will ignore all .txt files
+            if ".txt" in dir_entry:
+                continue
+            #first, split the dir_entry to get the full file name
+            full_file_name = (dir_entry.split("'"))[1] #nam3e_run7.py
+            print(full_file_name)
+            #then, split name into array of individual chars, 
+            #iterate backwards through the name to find first _ 
+            #and replace it with something that can never be 
+            # found in a file name, like /
+            full_file_name = list(full_file_name)
+            iter = -1
+            while (full_file_name[iter] != "_"):
+                iter -= 1
+            full_file_name[iter] = '/'
+            full_file_name = ("").join(full_file_name)
+            full_file_name = full_file_name.split("/")
+            print(full_file_name)
+            #then, split the full file name to get the name after the "/"
+            name_after_last_underscore = (full_file_name)[1]
+            name_before_last_underscore = (full_file_name)[0]
+            if name_before_last_underscore != split_program_name[0]:
+                os.rename("./versions/" + name_before_last_underscore + "_" + name_after_last_underscore, "./versions/" + split_program_name[0] + "_" + name_after_last_underscore)
+    except:
+        #print(err)
+        print("Uh oh, an error occured while checking file names. Please check that the files in your 'versions' folder are in correct naming format (name_run#.py)")
+        os.remove("./versions/" + pending_program_name)
+        exit()
+
+
+def askToLog(time_secs, time_mins, time_hrs, current_date, program_name, pending_program_name):
+    decision = str(input("Would you like to write this time to the list of runtimes? (y/n): "))
+    while (decision != "y" and decision != "n"):
+        decision = str(input("Would you like to write this time to the list of runtimes? (y/n): "))
+    if decision == "y":
+        #increment runs in numruns by 1
+        with open("./data/numruns.txt", "r+") as numruns:
+            for line in numruns:
+                num_runs = int(line[0])
+                num_runs += 1
+                current_date = "Run " + str(num_runs) + " " + current_date
+                numruns.seek(0)
+                numruns.truncate(0)
+                numruns.write(str(num_runs))
+        #log new run to runtimes        
+        with open("./data/runtimes.txt", "a") as runtimes:
+            runtimes.write(current_date)
+            runtimes.write("------------------------------\\n")
+            runtimes.write(time_secs)
+            runtimes.write("or\\n")
+            runtimes.write(time_mins)
+            runtimes.write("or\\n")
+            runtimes.write(time_hrs)
+            runtimes.write("\\n")
+            runtimes.write("==============================\\n\\n")
+
+        #add current version of tested program to versions folder
+        split_program_name = program_name.split('.')
+        program_version = "run" + str(num_runs)
+        #final_name is in format name_run#.py
+        final_program_name = split_program_name[0] + "_" + program_version + '.py'
+
+        #rename pending_name file to final_program_name in versions
+        os.rename("./versions/" + pending_program_name, "./versions/" + final_program_name)
+
+    else:
+        os.remove("./versions/" + pending_program_name)
+'''
+)
+    print("module 'proglogger' in folder 'dependencies' successfully created.")
+
 def createData():
     os.mkdir("./data")
 
@@ -73,57 +173,14 @@ def createNamePy():
         what you're doing or it may mess up the indentation 
         in name.py and you'll have to manually fix it.
         """
-        file1.write(
-'''import os
+        file1.write('''import os
 import shutil
 from dependencies import progtimer
-"""
-create a "pending run" version of this program. This is created 
-before everything else because the user may modify the file during 
-the program is running, and if they decide to log the run, the 
-version that will be copied will be the one that they modified 
-during the run, not the version that was actually used to run.
-"""
-program_name = os.path.basename(__file__) #https://stackoverflow.com/questions/4152963/get-name-of-current-script-in-python
-split_program_name = program_name.split('.')
-pending_program_name = split_program_name[0] + "_" + "pending" + "_" + "run" + ".txt"
-shutil.copyfile(program_name, "./versions/" + pending_program_name)
-#check if program's name changed. If so, update all file names in versions to reflect the change
-#more specifically, checks the first file in versions and compares its name to tested program
-#first_name_in_versions = os.scandir("./versions")
-#split_first_name_in_versions = first_name_in_versions.split("_")
-try:
-    for file in os.scandir("./versions"):
-        dir_entry = str(file)
-        #pending file is .txt initially, and we don't want to change the name of this file
-        #or, will ignore all .txt files
-        if ".txt" in dir_entry:
-            continue
-        #first, split the dir_entry to get the full file name
-        full_file_name = (dir_entry.split("'"))[1] #nam3e_run7.py
-        print(full_file_name)
-        #then, split name into array of individual chars, 
-        #iterate backwards through the name to find first _ 
-        #and replace it with something that can never be 
-        # found in a file name, like /
-        full_file_name = list(full_file_name)
-        iter = -1
-        while (full_file_name[iter] != "_"):
-            iter -= 1
-        full_file_name[iter] = '/'
-        full_file_name = ("").join(full_file_name)
-        full_file_name = full_file_name.split("/")
-        print(full_file_name)
-        #then, split the full file name to get the name after the "/"
-        name_after_last_underscore = (full_file_name)[1]
-        name_before_last_underscore = (full_file_name)[0]
-        if name_before_last_underscore != split_program_name[0]:
-            os.rename("./versions/" + name_before_last_underscore + "_" + name_after_last_underscore, "./versions/" + split_program_name[0] + "_" + name_after_last_underscore)
-except:
-    #print(err)
-    print("Uh oh, an error occured while checking file names. Please check that the files in your 'versions' folder are in correct naming format (name_run#.py)")
-    os.remove("./versions/" + pending_program_name)
-    exit()
+from dependencies import proglogger
+program_name = os.path.basename(__file__)
+pending_program_name = proglogger.createPendingProgram(program_name)
+proglogger.checkProgramName(program_name, pending_program_name)
+
 startTime = progtimer.startProgramTimer() # start timer here so it starts just before the program starts
 #######################################
 
@@ -134,45 +191,7 @@ endTime = progtimer.stopProgramTimer(startTime)
 current_date = progtimer.getCurrentDate()
 (time_secs, time_mins, time_hrs) = progtimer.formatRunTime(endTime)
 progtimer.printFormattedRunTime(time_secs, time_mins, time_hrs)
-
-        
-decision = str(input("Would you like to write this time to the list of runtimes? (y/n): "))
-while (decision != "y" and decision != "n"):
-    decision = str(input("Would you like to write this time to the list of runtimes? (y/n): "))
-if decision == "y":
-    #increment runs in numruns by 1
-    with open("./data/numruns.txt", "r+") as numruns:
-        for line in numruns:
-            num_runs = int(line[0])
-            num_runs += 1
-            current_date = "Run " + str(num_runs) + " " + current_date
-            numruns.seek(0)
-            numruns.truncate(0)
-            numruns.write(str(num_runs))
-    #log new run to runtimes        
-    with open("./data/runtimes.txt", "a") as runtimes:
-        runtimes.write(current_date)
-        runtimes.write("------------------------------\\n")
-        runtimes.write(time_secs)
-        runtimes.write("or\\n")
-        runtimes.write(time_mins)
-        runtimes.write("or\\n")
-        runtimes.write(time_hrs)
-        runtimes.write("\\n")
-        runtimes.write("==============================\\n\\n")
-
-    #add current version of tested program to versions folder
-    program_name = os.path.basename(__file__) #https://stackoverflow.com/questions/4152963/get-name-of-current-script-in-python
-    split_program_name = program_name.split('.')
-    program_version = "run" + str(num_runs)
-    #final_name is in format name_run#.py
-    final_program_name = split_program_name[0] + "_" + program_version + '.py'
-
-    #rename pending_name file to final_program_name in versions
-    os.rename("./versions/" + pending_program_name, "./versions/" + final_program_name)
-
-else:
-    os.remove("./versions/" + pending_program_name)
+proglogger.askToLog(time_secs, time_mins, time_hrs, current_date, program_name, pending_program_name)
 '''
 )
 
@@ -299,6 +318,7 @@ def main():
                 createDependencies()
                 print("'dependencies' successfully overwritten.")
                 createProgTimer()
+                createProgLogger()
             #case is not empty, will need to prompt for final confirmation
             else:    
                 reallyOverwriteDependencies = str(input("'dependencies' is not an empty directory. Do you REALLY want to overwrite it? (y/n): "))
@@ -310,6 +330,7 @@ def main():
                         createDependencies()
                         print("'dependencies' successfully overwritten.")
                         createProgTimer()
+                        createProgLogger()
                     except OSError as e:
                         print("Error: %s : %s" % ('./dependencies', e.strerror))
                 else:
@@ -320,6 +341,7 @@ def main():
         createDependencies()
         print("Successfully created 'dependencies'.")
         createProgTimer()
+        createProgLogger()
 
 
 
