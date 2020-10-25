@@ -96,7 +96,7 @@ def checkProgramName(program_name, pending_program_name):
                 continue
             #first, split the dir_entry to get the full file name
             full_file_name = (dir_entry.split("'"))[1] #nam3e_run7.py
-            print(full_file_name)
+            #print(full_file_name)
             #then, split name into array of individual chars, 
             #iterate backwards through the name to find first _ 
             #and replace it with something that can never be 
@@ -108,7 +108,7 @@ def checkProgramName(program_name, pending_program_name):
             full_file_name[iter] = '/'
             full_file_name = ("").join(full_file_name)
             full_file_name = full_file_name.split("/")
-            print(full_file_name)
+            #print(full_file_name)
             #then, split the full file name to get the name after the "/"
             name_after_last_underscore = (full_file_name)[1]
             name_before_last_underscore = (full_file_name)[0]
