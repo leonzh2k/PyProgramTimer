@@ -31,8 +31,8 @@ This script was written in Python 3.7.3, but may work on older versions.
     * `data` is the folder that contains info about the runtimes:
         *  `runtimes.txt` keeps track of runtimes. You probably shouldn't edit this.
         *  `numruns.txt` is used to keep track of how many runs have been logged to `runtimes.txt`. You probably shouldn't edit this either.
-    * `dependencies` contains code necessary for the tool to work.
-    * `versions` contains different versions of your program. The current version of your program is saved here when you choose to log a run.
+    * `dependencies` contains modules necessary for the tool to work.
+    * `versions` contains different versions of your program. The current version of your program is saved here when you choose to log a run. The filename is suffixed with the run number which corresponds to the run number in `runtimes.txt`. This way you can easily remember how fast earlier versions of your program ran. 
 6. Delete or move `timerSetup.py` out of the directory (you can reuse it for other programs). If you don't do this, you may accidentally run it again and run the risk of overwriting important data; fortunately there is a safeguard against that (The program will prompt you before overwriting.)
 7. Develop your program.
 
