@@ -25,20 +25,24 @@ This script was written in Python 3.7.3, but may work on older versions.
 1. Download `timerSetup.py`. This is similar to the conventional installer program that installs software. 
 2. Create an empty directory that you wish to develop your program in. 
 3. Move `timerSetup.py` into the directory, and execute it ONLY ONCE.
-4. You will see three new files:
+4. New files will be created. You may have to reload the directory to see them.
+5. You will see one new file and three new folders:
     *  `name.py` is the file where you will develop your program. You can rename this whatever you like.
-    *  `runtimes.txt` keeps track of runtimes. You probably shouldn't edit this.
-    *  `numruns.txt` is used to keep track of how many runs have been logged to `runtimes.txt`. You probably shouldn't edit this either.
-4. Delete or move `timerSetup.py` out of the directory (you can reuse it for other programs). If you don't do this, you may accidentally run it again and run the risk of overwriting important data; fortunately there is a safeguard against that (The program will prompt the user.)
-5. Develop your program.
+    * `data` is the folder that contains info about the runtimes:
+        *  `runtimes.txt` keeps track of runtimes. You probably shouldn't edit this.
+        *  `numruns.txt` is used to keep track of how many runs have been logged to `runtimes.txt`. You probably shouldn't edit this either.
+    * `dependencies` contains code necessary for the tool to work.
+    * `versions` contains different versions of your program. The current version of your program is saved here when you choose to log a run.
+6. Delete or move `timerSetup.py` out of the directory (you can reuse it for other programs). If you don't do this, you may accidentally run it again and run the risk of overwriting important data; fortunately there is a safeguard against that (The program will prompt you before overwriting.)
+7. Develop your program.
 
 
 ## Usage
-The general use cycle of this script would probably be something like this:
+The general use cycle of this tool would probably be something like this:
 1. Write the first (working) iteration of your program.
-2. Record the runtime on `runtimes.txt`.
-3. Make some changes to your program and run.
-4. Record the runtime on `runtimes.txt`.
+2. Run it and view the runtime in `runtimes.txt`.
+3. Make some changes to your program.
+4. Run it and view the runtime in `runtimes.txt`.
 5. Repeat steps 3-4.
 6. See how much faster your program has gotten and how far you've come.....
 
