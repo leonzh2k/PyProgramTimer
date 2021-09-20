@@ -22,14 +22,14 @@ This script was written in Python 3.7.3, but may work on older versions.
 
 ## Setup
 
-1. Download `timerSetup.py`. 
+1. Download `timerSetup.py`. This is similar to the conventional installer program that installs software. 
 2. Create an empty directory that you wish to develop your program in. 
 3. Move `timerSetup.py` into the directory, and execute it ONLY ONCE.
 4. You will see three new files:
     *  `name.py` is the file where you will develop your program. You can rename this whatever you like.
     *  `runtimes.txt` keeps track of runtimes. You probably shouldn't edit this.
     *  `numruns.txt` is used to keep track of how many runs have been logged to `runtimes.txt`. You probably shouldn't edit this either.
-4. Delete or move `timerSetup.py` out of the directory (you can reuse it for other programs). If you don't do this, you may accidentally run it again and run the risk of overwriting important data; fortunately there is a safeguard against that. 
+4. Delete or move `timerSetup.py` out of the directory (you can reuse it for other programs). If you don't do this, you may accidentally run it again and run the risk of overwriting important data; fortunately there is a safeguard against that (The program will prompt the user.)
 5. Develop your program.
 
 
@@ -44,12 +44,13 @@ The general use cycle of this script would probably be something like this:
 
 ## Todo
 * Create `compareRunTimes.py` that allows you to compare runtimes
+* Possible GUI interface to compare two versions of programs with tkinter?
 * Update README to reflect changes in code
 * <del>Figure out how to format runtime to specify less decimal places</del>
 * <del>Package timer and run-logging code into modules to reduce clutter in main program<del>
 
 ## Status
-Ongoing
+Stopped but not complete. May continue development in the future.
 
 ## Bugs
 

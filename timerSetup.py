@@ -45,9 +45,9 @@ def getCurrentDate():
     return current_date
 
 def formatRunTime(runtime):
-    time_secs = str(round(runtime, 3)) + " " + "seconds" + "\\n"
-    time_mins = str(round((runtime / 60), 3)) + " " + "minutes" + "\\n"
-    time_hrs =  str(round((runtime / 3600), 3)) + " " + "hours" + "\\n"
+    time_secs = str(round(runtime, 5)) + " " + "seconds" + "\\n"
+    time_mins = str(round((runtime / 60), 5)) + " " + "minutes" + "\\n"
+    time_hrs =  str(round((runtime / 3600), 5)) + " " + "hours" + "\\n"
     return (time_secs, time_mins, time_hrs)
 
 def printFormattedRunTime(time_secs, time_mins, time_hrs):
